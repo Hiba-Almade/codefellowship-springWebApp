@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="./profile.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+<h2>profile</h2>
+<span th:text="${#authentication.getPrincipal().getBio()}"></span>
+
+<div class="container">
+    <div class="row" th:each="user :${usersList}" >
+        <div class="col-md-6 img">
+            <a th:href="${'/user/'+user.id}"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvzOpl3-kqfNbPcA_u_qEZcSuvu5Je4Ce_FkTMMjxhB-J1wWin-Q"  alt="" class="img-rounded"></a>
+        </div>
+        <div class="col-md-6 details">
+
+                <h5><span th:text="${user.getFirstName()}"></span> <span th:text="${user.getLastName()}"></span></h5>
+                <small><cite title="Source Title" ><span  th:text="${user.getDateOfBirth()}"></span><i class="icon-map-marker"></i></cite></small>
+
+            <p><b> <span th:text="${user.getBio()}"></span></b></p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
