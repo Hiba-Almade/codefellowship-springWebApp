@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.Console;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ public class ApplicationUserController {
           // maybe autologin?
           Authentication authentication = new UsernamePasswordAuthenticationToken(appUser, null, new ArrayList<>());
           SecurityContextHolder.getContext().setAuthentication(authentication);
-          return new RedirectView("profile");
+          return new RedirectView("/");
       }catch (Exception e){
           return new RedirectView("error");
       }
@@ -58,8 +59,9 @@ public class ApplicationUserController {
     }
 
     @GetMapping("/user/{id}")
-    public String profilePage(@PathVariable int id , Model model){
+    public String profilePage(@PathVariable int id , Model model ,Principal p){
         try {
+            ApplicationUser logUser=applicationUserRepository.findByUsername(p.getName());
             ApplicationUser applicationUser = applicationUserRepository.findById(id).get();
             model.addAttribute("userData", applicationUser);
             return "profile";
@@ -80,5 +82,27 @@ public class ApplicationUserController {
         model.addAttribute("usersList",all);
         return "users";
     }
+
+//    @PostMapping("/follow/{id}")
+//    public RedirectView addFollow(Principal principal, @RequestParam int id){
+//        ApplicationUser user = applicationUserRepository.findByUsername(principal.getName());
+//        ApplicationUser toFollow = applicationUserRepository.findById(id).get();
+//        user.getFollowers().add(toFollow);
+//        applicationUserRepository.save(user);
+//        return new RedirectView("/user/"+toFollow.getId());
+//    }
+
+    @PostMapping("/follow/{username}")
+    public RedirectView follow(@PathVariable String username , Principal p){
+        ApplicationUser user = applicationUserRepository.findByUsername(p.getName());
+        ApplicationUser toFollow = applicationUserRepository.findByUsername(username);
+        user.setFollowers(toFollow);
+        toFollow.setFollowing(user);
+        applicationUserRepository.save(user);
+        applicationUserRepository.save(toFollow);
+        return new RedirectView("/");
+    }
+
+
 
 }
