@@ -1,7 +1,9 @@
 package com.example.codefellowship.controllers;
 
 import com.example.codefellowship.models.ApplicationUser;
+import com.example.codefellowship.models.Post;
 import com.example.codefellowship.repositories.ApplicationUserRepository;
+import com.example.codefellowship.repositories.PostRepository;
 import jdk.jfr.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +21,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.io.Console;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class ApplicationUserController {
@@ -28,6 +32,8 @@ public class ApplicationUserController {
     PasswordEncoder encoder;
     @Autowired
     ApplicationUserRepository applicationUserRepository;
+    @Autowired
+    PostRepository postRepository;
     @GetMapping("/signup")
     public String signupPage(){
         return "signup";
@@ -101,6 +107,19 @@ public class ApplicationUserController {
         applicationUserRepository.save(user);
         applicationUserRepository.save(toFollow);
         return new RedirectView("/");
+    }
+
+    @GetMapping("/feed")
+    public String feedView(Principal p, Model model) {
+        ApplicationUser user = applicationUserRepository.findByUsername(p.getName());
+        Set<ApplicationUser> followings = (Set<ApplicationUser>) user.getFollowers();
+        ArrayList<Post> feed = new ArrayList<>();
+        for (ApplicationUser following : followings) {
+            Post[] posts = postRepository.findByUsersPost(following);
+            Collections.addAll(feed, posts);
+        }
+        model.addAttribute("posts", feed);
+        return "feed";
     }
 
 
