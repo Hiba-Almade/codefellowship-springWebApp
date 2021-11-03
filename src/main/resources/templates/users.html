@@ -12,20 +12,33 @@
 
 <header th:replace="header"></header>
 
-<h2>profile</h2>
-<span th:text="${#authentication.getPrincipal().getBio()}"></span>
+<!--<h2>profile</h2>-->
+<!--<span th:text="${#authentication.getPrincipal().getBio()}"></span>-->
 
-<div class="container">
-    <div class="row" th:each="user :${usersList}" >
-        <div class="col-md-6 img">
-            <a th:href="${'/user/'+user.id}"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvzOpl3-kqfNbPcA_u_qEZcSuvu5Je4Ce_FkTMMjxhB-J1wWin-Q"  alt="" class="img-rounded"></a>
-        </div>
-        <div class="col-md-6 details">
+<!--<div class="container">-->
+<!--    <div class="row" th:each="user :${usersList}" >-->
+<!--        <div class="col-md-6 img">-->
+<!--            <a th:href="${'/user/'+user.id}"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvzOpl3-kqfNbPcA_u_qEZcSuvu5Je4Ce_FkTMMjxhB-J1wWin-Q"  alt="" class="img-rounded"></a>-->
+<!--        </div>-->
+<!--        <div class="col-md-6 details">-->
 
-                <h5><span th:text="${user.getFirstName()}"></span> <span th:text="${user.getLastName()}"></span></h5>
-                <small><cite title="Source Title" ><span  th:text="${user.getDateOfBirth()}"></span><i class="icon-map-marker"></i></cite></small>
+<!--                <h5><span th:text="${user.getFirstName()}"></span> <span th:text="${user.getLastName()}"></span></h5>-->
+<!--                <small><cite title="Source Title" ><span  th:text="${user.getDateOfBirth()}"></span><i class="icon-map-marker"></i></cite></small>-->
 
-            <p><b> <span th:text="${user.getBio()}"></span></b></p>
+<!--            <p><b> <span th:text="${user.getBio()}"></span></b></p>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+<div class="container-fluid text-center bg-grey">
+    <div class="row text-center">
+        <div class="col-sm-4" th:each="user :${usersList}">
+            <div class="thumbnail">
+                <img src="https://cdn3d.iconscout.com/3d/premium/thumb/user-3711850-3105265.png" alt="Paris" width="400" height="300">
+                <p><strong><span th:text="${user.getFirstName()}"></span> <span th:text="${user.getLastName()}"></span></strong></p>
+
+            </div>
         </div>
     </div>
 </div>
