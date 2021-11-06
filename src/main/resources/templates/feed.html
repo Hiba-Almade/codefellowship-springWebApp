@@ -8,10 +8,10 @@
 
 <div class="card" th:each="post: ${posts}">
     <div>
-        <blockquote >
+
             <p th:text="${post.body}"></p>
-            <footer class="blockquote-footer" th:text="${post.createdAt}"></footer>
-        </blockquote>
+            <p> th:text="${post.createdAt}"></p>
+
     </div>
 </div>
 

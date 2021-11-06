@@ -31,14 +31,14 @@ public class PostController {
 //    }
 
     @PostMapping("/addpost")
-    public String addPost(@RequestParam(value = "userId") int userId , @RequestParam(value = "body") String body){
+    public RedirectView addPost(@RequestParam(value = "userId") int userId , @RequestParam(value = "body") String body){
        try {
            ApplicationUser user=applicationUserRepository.findById(userId).get();
            Post post = new Post(body,user);
            postRepository.save(post);
-           return "profile";
+           return new RedirectView("/myprofile");
        }catch (Exception e){
-           return "error";
+           return new RedirectView("/error");
        }
     }
 }
